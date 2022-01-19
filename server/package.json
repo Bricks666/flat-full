@@ -1,0 +1,25 @@
+{
+	"name": "server",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"dev": "nodemon index.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"argon2": "^0.28.3",
+		"cookie-parser": "^1.4.6",
+		"cors": "^2.8.5",
+		"express": "^4.17.2",
+		"fabric-ca-client": "^2.2.11",
+		"fabric-network": "^2.2.11",
+		"jsonwebtoken": "^8.5.1"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.15"
+	}
+}
