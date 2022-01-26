@@ -3,8 +3,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "./middlewares/index.js";
 import { PORT } from "./configs/index.js";
-import { generatePairKeys } from "./services/index.js";
 import { appRouter } from "./routes/index.js";
+import { loginIdentity } from "./services/index.js";
 
 const app = express();
 
@@ -17,5 +17,5 @@ app.use("/", appRouter);
 app.use(errorHandler);
 
 app.listen(PORT, async () => {
-	generatePairKeys();
+	await loginIdentity("admin", "adminpw", "org1");
 });

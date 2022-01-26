@@ -1,6 +1,7 @@
 import FabricCAServices from "fabric-ca-client";
 import { Gateway, Wallets } from "fabric-network";
-import { ApiError } from ".";
+import { ApiError } from "./index.js";
+import { readFileSync } from "fs";
 
 export const getConnectionProfile = (org) => {
 	return JSON.parse(readFileSync(`./gateway/connection-${org}.json`));
@@ -9,9 +10,8 @@ export const getConnectionProfile = (org) => {
 export const createCA = (org) => {
 	const connectionProfile = getConnectionProfile(org);
 
-	const ca =
-		connectionProfile.certificateAuthorities[`ca.org${org}.example.com`];
-	const rootCA = connectionProfile.tlsCACerts.pem;
+	const ca = connectionProfile.certificateAuthorities[`ca.${org}.example.com`];
+	const rootCA = ca.tlsCACerts.pem;
 
 	return new FabricCAServices(
 		ca.url,
@@ -24,7 +24,7 @@ export const createCA = (org) => {
 };
 
 export const createWallet = async (org, login) => {
-	return await Wallets.newFileSystemWallet(`./wallet/${org - login}`);
+	return await Wallets.newFileSystemWallet(`./wallet/${org}-${login}`);
 };
 
 export const createGateway = async (wallet, login, org) => {
@@ -74,7 +74,7 @@ export const getAdminIdentity = async (org) => {
 
 export const registerIdentity = async (login, password, org = "org1") => {
 	try {
-		const admin = getAdminIdentity(org);
+		const admin = await getAdminIdentity(org);
 
 		const ca = createCA(org);
 		await ca.register(
@@ -102,17 +102,22 @@ export const registerIdentity = async (login, password, org = "org1") => {
 
 export const loginIdentity = async (login, password, org = "org1") => {
 	const ca = createCA(org);
-	const wallet = await createWallet(org, login);
 	const enrollment = await ca.enroll({
 		enrollmentSecret: password,
 		enrollmentID: login,
 	});
+	const wallet = await createWallet(org, login);
 	const identity = createIdentity(org, enrollment);
 	await wallet.put(login, identity);
 };
 
-export const getContract = async (gateway, channel, chaincode, contract) => {
-	const channel = await gateway.getNetwork(channel);
+export const getContract = async (
+	gateway,
+	channelName,
+	chaincode,
+	contract
+) => {
+	const channel = await gateway.getNetwork(channelName);
 
 	return await channel.getContract(chaincode, contract);
 };
