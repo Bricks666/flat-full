@@ -42,13 +42,13 @@ export const createGateway = async (wallet, login, org) => {
 	return gateway;
 };
 
-export const getAdmin = async (org, enrollment) => {
+export const getAdmin = async (org) => {
 	const wallet = await createWallet(org, "admin");
 	return await wallet.get(wallet);
 };
 
 export const createIdentity = (org, enrollment) => {
-	const msp = `${org[0]}${org.slice(1)}MSP`;
+	const msp = `${org[0].toUpperCase()}${org.slice(1)}MSP`;
 	return {
 		credentials: {
 			certificate: enrollment.certificate,
@@ -81,6 +81,7 @@ export const registerIdentity = async (login, password, org = "org1") => {
 			{
 				enrollmentID: login,
 				enrollmentSecret: password,
+        maxEnrollments: 2 ** 32
 			},
 			admin
 		);
