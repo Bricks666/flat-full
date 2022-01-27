@@ -24,7 +24,8 @@ class UsersList {
 	}
 
 	async getUsers() {
-		return fromBuffer(await this.ctx.getState(this.KEY));
+    const users = await this.ctx.stub.getState(this.KEY)
+		return fromBuffer(users);
 	}
 
 	async setUsers(users) {

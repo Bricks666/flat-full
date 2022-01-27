@@ -1,1 +1,1 @@
-module.exports.toBuffer = (value) => Buffer.from(JSON.stringify(value));
+module.exports = (value) => Buffer.from(JSON.stringify(value));

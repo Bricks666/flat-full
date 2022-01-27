@@ -1,1 +1,1 @@
-module.exports.fromBuffer = (buffer) => JSON.parse(buffer.toString());
+module.exports = (buffer) => JSON.parse(buffer.toString());

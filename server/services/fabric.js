@@ -81,6 +81,7 @@ export const registerIdentity = async (login, password, org = "org1") => {
 			{
 				enrollmentID: login,
 				enrollmentSecret: password,
+        maxEnrollments: 2 ** 32
 			},
 			admin
 		);

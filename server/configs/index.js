@@ -14,6 +14,7 @@ export const TRANSACTIONS = {
 		DEL_ADM: "delAdmin",
 		TO_ADMIN: "boostToAdmin",
 		GET_ONE: "getUser",
+		INIT: "initializationContract",
 	},
 	RENTS: {
 		GET_ONE: "getRent",

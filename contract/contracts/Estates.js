@@ -28,6 +28,7 @@ class Estates extends Contract {
 		const estate = new Estate(owner, square, lifetime);
 
 		await ctx.estatesList.addEstate(estate);
+    return estate;
 	}
 
 	async getEstate(ctx, estateNum) {

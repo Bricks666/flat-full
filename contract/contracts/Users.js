@@ -23,7 +23,6 @@ class Users extends Contract {
 		const user = new User(login, role, balance, "org1");
 
 		await ctx.usersList.addUser(user);
-		ctx.usersList.newUser(login);
 	}
 	// Понижение админа до пользователя
 	async delAdmin(ctx, login, loginToDel) {
@@ -42,7 +41,6 @@ class Users extends Contract {
 		users[loginToDel] = dataUser;
 		const dataUsers = Buffer.from(JSON.stringify(users));
 		await this.ctx.stub.putState("users", dataUsers);
-		ctx.usersList.changeRole(loginToDel, "User");
 	}
 	//повышение пользователя до админа
 	async boostToAdmin(ctx, login, loginToBoost) {
@@ -61,7 +59,6 @@ class Users extends Contract {
 		users[loginToBoost] = dataUser;
 		const dataUsers = Buffer.from(JSON.stringify(users));
 		await this.ctx.stub.putState("users", dataUsers);
-		await ctx.usersList.changeRole(loginToBoost, "Admin");
 	}
 	//вывод информации о пользователе
 	async getUser(ctx, login) {
