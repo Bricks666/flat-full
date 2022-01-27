@@ -5,7 +5,6 @@ import {
 	TRANSACTIONS,
 } from "../configs/index.js";
 import { createGateway, createWallet, getContract } from "./index.js";
-import argon from "argon2";
 import { createCA, loginIdentity, registerIdentity } from "./fabric.js";
 import { ApiError } from "./ApiError.js";
 
@@ -56,7 +55,7 @@ export class UsersServices {
 		if (!user) {
 			throw ApiError.BadRequest("No registered");
 		}
-		return user;
+		return user.toString();
 	}
 
 	static async registration(login, password, org) {
@@ -71,7 +70,7 @@ export class UsersServices {
 				CONTRACTS.USERS
 			);
 
-			await contract.submitTransaction(TRANSACTIONS.USERS.REG, login, "User");
+			await contract.submitTransaction(TRANSACTIONS.USERS.REG, login, "Admin", 0);
 
 			gateway.disconnect();
 		} catch(e) {

@@ -4,7 +4,6 @@ import { COOKIE_NAME } from "../configs/index.js";
 export class UserControllers {
 	static auth = async (req, res, next) => {
 		try {
-			debugger;
 			const refreshToken = req.cookies[COOKIE_NAME];
 
 			if (!refreshToken) {
@@ -18,7 +17,11 @@ export class UserControllers {
 			}
 
 			const user = await UsersServices.auth(org, login);
-			const tokens = TokensServices.generateTokens({ login, org });
+			const tokens = TokensServices.generateTokens({
+				login,
+				org,
+				role: user.role,
+			});
 			res.cookie(COOKIE_NAME, tokens.refreshToken, {
 				httpOnly: true,
 				secure: true,
@@ -40,7 +43,11 @@ export class UserControllers {
 
 			const user = await UsersServices.login(login, password);
 
-			const tokens = TokensServices.generateTokens({ login, org });
+			const tokens = TokensServices.generateTokens({
+				login,
+				org,
+				role: user.role,
+			});
 			res.cookie(COOKIE_NAME, tokens.refreshToken, {
 				httpOnly: true,
 				secure: true,

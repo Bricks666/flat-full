@@ -13,4 +13,8 @@ export class ApiError extends Error {
 	static BadRequest(message) {
 		return new ApiError(400, message);
 	}
+
+	static NotAccess() {
+		return new ApiError(403, "You dont have access");
+	}
 }
