@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authThunk } from "../../store";
 import { routes } from "../../routes";
+import { AuthRoute } from "../AuthRoute";
 
 export const App = () => {
 	const isLoading = useSelector((state) => state.user.isLoading);
@@ -15,13 +16,24 @@ export const App = () => {
 	if (isLoading) {
 		return <p>Initialization</p>;
 	}
-	console.log(isLoading);
 
 	return (
 		<div>
 			<Routes>
-				{routes.map(({ path, Component }) => (
-					<Route path={path} element={<Component />} key={path} />
+				{routes.map(({ path, Component, isOnlyAuth }) => (
+					<Route
+						path={path}
+						element={
+							isOnlyAuth ? (
+								<AuthRoute>
+									<Component />
+								</AuthRoute>
+							) : (
+								<Component />
+							)
+						}
+						key={path}
+					/>
 				))}
 			</Routes>
 		</div>

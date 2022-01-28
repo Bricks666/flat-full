@@ -1,11 +1,10 @@
-import { useCallback } from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useLocationState } from "../../hooks";
-import { loginThunk } from "../../store";
+import { registrationThunk } from "../../store";
 
-export const LoginForm = () => {
+export const RegistrationForm = () => {
 	const [login, setLogin] = useState("");
 	const [password, setPassword] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,14 +30,14 @@ export const LoginForm = () => {
 			evt.preventDefault();
 
 			setIsSubmitting(true);
-			const response = await dispatch(loginThunk(login, password));
-      console.log(response)
+			const response = await dispatch(registrationThunk(login, password));
+			console.log(response);
 			setLogin("");
 			setPassword("");
 			setIsSubmitting(false);
 
 			if (response) {
-				const to = state?.pathname || "/";
+				const to = state?.pathname || "/login";
 				navigate(to, { replace: true });
 			}
 		},

@@ -118,9 +118,9 @@ export const authThunk = () => {
 export const loginThunk = (login, password) => {
 	return async (dispatch) => {
 		try {
-      debugger;
-			const user = await loginAPI(login, password);
-			dispatch(setUserInfoAC(user));
+
+			const userAndTokens = await loginAPI(login, password);
+			dispatch(setUserInfoAC(userAndTokens.user));
 			dispatch(loginAC());
 			return true;
 		} catch (e) {
