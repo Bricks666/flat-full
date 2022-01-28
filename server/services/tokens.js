@@ -8,11 +8,11 @@ const PRIVATE_KEY = readFileSync("./configs/private_key.pem", "utf8");
 export class TokensServices {
 	static generateTokens = (user) => {
 		try {
-			const accessToken = jwt.sign(user, PUBLIC_KEY, {
+			const accessToken = jwt.sign(user, PRIVATE_KEY, {
 				algorithm: "RS256",
 				expiresIn: "1h",
 			});
-			const refreshToken = jwt.sign(user, PUBLIC_KEY, {
+			const refreshToken = jwt.sign(user, PRIVATE_KEY, {
 				algorithm: "RS256",
 				expiresIn: "14d",
 			});
@@ -21,14 +21,14 @@ export class TokensServices {
         accessToken,
         refreshToken
       }
-		} catch {
+		} catch (e) {
 			return null;
 		}
 	};
 
 	static verifyToken = (token) => {
 		try {
-			const user = jwt.verify(token, PRIVATE_KEY);
+			const user = jwt.verify(token, PUBLIC_KEY);
 			return user;
 		} catch {
 			return null;

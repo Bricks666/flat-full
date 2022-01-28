@@ -45,7 +45,7 @@ export class UserControllers {
 
 			const tokens = TokensServices.generateTokens({
 				login,
-				org,
+				org: user.organization,
 				role: user.role,
 			});
 			res.cookie(COOKIE_NAME, tokens.refreshToken, {
@@ -98,7 +98,11 @@ export class UserControllers {
 				throw ApiError.UnAuthorization();
 			}
 
-			const tokens = TokensServices.generateTokens(user);
+			const tokens = TokensServices.generateTokens({
+				login: user.login,
+				org: user.org,
+				role: user.role,
+			});
 			res.cookie(COOKIE_NAME, tokens.refreshToken, {
 				httpOnly: true,
 				secure: true,

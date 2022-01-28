@@ -1,5 +1,4 @@
 const { Context } = require("fabric-contract-api");
-const { RentalOffer } = require("../models");
 const { toBuffer, fromBuffer } = require("../utils");
 
 class RentalOffersList {
@@ -8,15 +7,11 @@ class RentalOffersList {
 		this.KEY = "rentalOffers";
 	}
 	/* METHODS */
-	async createRentalOffer(rentId, lessee) {
-		const rentalOffer = new RentalOffer(rentId, lessee);
-
+	async createRentalOffer(rentalOffer) {
 		const rentalOffers = await this.getRentalOffers();
 		rentalOffers.push(rentalOffer);
 
 		await this.setRentalOffers(rentalOffers);
-
-		this.newRentalOffer(rentalOffers.length - 1);
 	}
 
 	async getRentalOffers() {
@@ -27,7 +22,7 @@ class RentalOffersList {
 	}
 
 	async setRentalOffers(offers) {
-		await this.ctx.putState(this.KEY, toBuffer(offers));
+		await this.ctx.stub.putState(this.KEY, toBuffer(offers));
 	}
 
 	async finishRentalOffers(offerId) {
@@ -38,8 +33,6 @@ class RentalOffersList {
 		}
 
 		await this.setRentalOffers(offers);
-
-		this.changeRentalOfferStatus(offerId);
 	}
 
 	/* EVENTS */

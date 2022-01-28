@@ -4,10 +4,10 @@ import { EstatesServices } from "../services/index.js";
 export class EstatesControllers {
 	static async getEstate(req, res, next) {
 		try {
-      console.log(req)
+			console.log(req);
 			const { user } = req.body;
 
-      const estateNum = req
+			const estateNum = req.params.id;
 
 			if (!user) {
 				throw ApiError.BadRequest("Not user");
@@ -29,7 +29,7 @@ export class EstatesControllers {
 		}
 	}
 
-	static async addEstate(res, req, next) {
+	static async addEstate(req, res, next) {
 		try {
 			const { user, owner, square, lifetime } = req.body;
 

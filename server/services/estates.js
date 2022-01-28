@@ -5,6 +5,7 @@ import {
 	TRANSACTIONS,
 } from "../configs/index.js";
 import { createWallet, createGateway, getContract } from "./index.js";
+import { fromBuffer } from "../utils/index.js";
 
 export class EstatesServices {
 	static async getEstate(login, org, estateNum) {
@@ -21,12 +22,12 @@ export class EstatesServices {
 			estateNum
 		);
 		gateway.disconnect();
-		return response.toString();
+		return fromBuffer(response);
 	}
 
 	static async addEstate(admin, org, owner, square, lifetime) {
-		const wallet = await createWallet(org, login);
-		const gateway = await createGateway(wallet, login, org);
+		const wallet = await createWallet(org, admin);
+		const gateway = await createGateway(wallet, admin, org);
 		const contract = await getContract(
 			gateway,
 			CHANNEL,
@@ -41,6 +42,6 @@ export class EstatesServices {
 			lifetime
 		);
 		gateway.disconnect();
-		return response.toString();
+		return fromBuffer(response);
 	}
 }

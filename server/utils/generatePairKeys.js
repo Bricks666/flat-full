@@ -14,8 +14,8 @@ const generatePairKeys = () => {
 		},
 	});
   console.log(process.cwd())
-	writeFileSync("./configs/public_key.pem", keyPair.publicKey);
-	writeFileSync("./configs/private_key.pem", keyPair.privateKey);
+	writeFileSync("../configs/public_key.pem", keyPair.publicKey);
+	writeFileSync("../configs/private_key.pem", keyPair.privateKey);
 };
 
 generatePairKeys();

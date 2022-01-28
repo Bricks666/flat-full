@@ -19,14 +19,17 @@ export const TRANSACTIONS = {
 	RENTS: {
 		GET_ONE: "getRent",
 		ADD: "createRent",
+		INIT: "initializationContract",
 	},
 	ESTATES: {
 		ADD: "addEstate",
 		GET_ONE: "getEstate",
+		INIT: "initializationContract",
 	},
 	RENTAL_OFFERS: {
 		ADD: "addRentalOffer",
 		ACCEPT: "acceptRentalOffer",
 		CANCEL: "cancelRentalOffer",
+		INIT: "initializationContract",
 	},
 };

@@ -15,7 +15,7 @@ class UsersList {
 
 		users[user.login] = user;
 
-		const dataUser = toBuffer(user);
+		const dataUser = toBuffer(users);
 		await this.ctx.stub.putState(this.KEY, dataUser);
 	}
 

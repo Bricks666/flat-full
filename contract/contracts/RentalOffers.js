@@ -1,7 +1,11 @@
 const { Contract } = require("fabric-contract-api");
 const { RentalOfferCTX } = require("../contexts");
+const { RentalOffer } = require("../models");
 
 class RentalOffers extends Contract {
+	async initializationContract(ctx) {
+		await ctx.rentalOffersList.setRentalOffers([]);
+	}
 	createContext() {
 		return new RentalOfferCTX();
 	}
@@ -20,10 +24,13 @@ class RentalOffers extends Contract {
 		if (price > user.balance) {
 			return null;
 		}
+		const rentalOffer = new RentalOffer(rentId, lessee);
 
-		await ctx.rentalOffersList.createRentalOffer(rentId, lessee);
+		await ctx.rentalOffersList.createRentalOffer(rentalOffer);
 
 		await ctx.usersList.spendMoney(lessee, price);
+
+		return rentalOffer;
 	}
 
 	async acceptRentalOffer(ctx, sender, offerId) {
@@ -35,6 +42,10 @@ class RentalOffers extends Contract {
 		}
 
 		const rent = await ctx.rentsList.getRent(offer.rentId);
+		if (rent.isRent) {
+			return null;
+		}
+
 		const estate = await ctx.estatesList.getEstate(rent.estateId);
 
 		if (estate.owner !== sender) {
@@ -44,6 +55,8 @@ class RentalOffers extends Contract {
 		await ctx.usersList.addMoney(sender, offerId);
 		await ctx.rentsList.setIsRent(offer.rentId, true);
 		await ctx.rentalOffersList.finishRentalOffers(offerId);
+
+		return true;
 	}
 
 	async cancelRentalOffer(ctx, sender, offerId) {
@@ -66,6 +79,8 @@ class RentalOffers extends Contract {
 
 		await ctx.usersList.addMoney(lessee.login, rent.price);
 		await ctx.rentalOffersList.finishRentalOffers(offerId);
+
+		return true;
 	}
 }
 

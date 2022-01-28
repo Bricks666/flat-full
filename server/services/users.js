@@ -5,8 +5,9 @@ import {
 	TRANSACTIONS,
 } from "../configs/index.js";
 import { createGateway, createWallet, getContract } from "./index.js";
-import { createCA, loginIdentity, registerIdentity } from "./fabric.js";
+import { loginIdentity, registerIdentity } from "./fabric.js";
 import { ApiError } from "./ApiError.js";
+import { fromBuffer } from "../utils/index.js";
 
 export class UsersServices {
 	static ORGS = ["org1", "org2"];
@@ -27,7 +28,7 @@ export class UsersServices {
 
 		gateway.disconnect();
 
-		return user.toString();
+		return fromBuffer(user);
 	}
 
 	static async login(login, password) {
@@ -49,13 +50,17 @@ export class UsersServices {
 					login
 				);
 
+				if (user) {
+					break;
+				}
+
 				gateway.disconnect();
 			} catch {}
 		}
 		if (!user) {
 			throw ApiError.BadRequest("No registered");
 		}
-		return user.toString();
+		return fromBuffer(user);
 	}
 
 	static async registration(login, password, org) {
@@ -70,10 +75,15 @@ export class UsersServices {
 				CONTRACTS.USERS
 			);
 
-			await contract.submitTransaction(TRANSACTIONS.USERS.REG, login, "Admin", 0);
+			await contract.submitTransaction(
+				TRANSACTIONS.USERS.REG,
+				login,
+				"Admin",
+				150
+			);
 
 			gateway.disconnect();
-		} catch(e) {
+		} catch (e) {
 			throw ApiError.BadRequest("Already registered");
 		}
 	}

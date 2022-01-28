@@ -7,7 +7,7 @@ class Rents extends Contract {
 		return new RentsCTX();
 	}
 	async initializationContract(ctx) {
-		await ctx.rentsList.addRent([]);
+		await ctx.rentsList.setRents([]);
 	}
 
 	/* METHODS */
@@ -25,6 +25,8 @@ class Rents extends Contract {
 		const rent = new Rent(estateNum, price, time);
 
 		await ctx.rentsList.addRent(rent);
+
+		return rent;
 	}
 }
 

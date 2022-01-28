@@ -13,7 +13,7 @@ class Estates extends Contract {
 		estates.push(new Estate("User2", 230, "19.12.1990"));
 		estates.push(new Estate("User1", 70, "19.12.1990"));
 
-		await ctx.estateList.setEstates(estates);
+		await ctx.estatesList.setEstates(estates);
 	}
 
 	/* METHODS */
@@ -28,7 +28,7 @@ class Estates extends Contract {
 		const estate = new Estate(owner, square, lifetime);
 
 		await ctx.estatesList.addEstate(estate);
-    return estate;
+		return estate;
 	}
 
 	async getEstate(ctx, estateNum) {
