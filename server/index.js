@@ -20,7 +20,12 @@ import {
 const app = express();
 
 app.use(json());
-app.use(cors());
+app.use(
+	cors({
+		origin: "http://localhost:3000",
+		credentials: true,
+	})
+);
 app.use(cookieParser());
 
 app.use("/", appRouter);
@@ -28,7 +33,7 @@ app.use("/", appRouter);
 app.use(errorHandler);
 
 app.listen(PORT, async () => {
-	/* await loginIdentity("admin", "adminpw", "org1");
+	await loginIdentity("admin", "adminpw", "org1");
 	const wallet = await createWallet("org1", "admin");
 	const gateway = await createGateway(wallet, "admin", "org1");
 	const users = await getContract(gateway, CHANNEL, CHAINCODE, CONTRACTS.USERS);
@@ -49,5 +54,5 @@ app.listen(PORT, async () => {
 		CONTRACTS.RENTAL_OFFERS
 	);
 	await offers.submitTransaction(TRANSACTIONS.RENTAL_OFFERS.INIT);
-	console.log("OK"); */
+	console.log("OK");
 });
