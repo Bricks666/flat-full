@@ -24,24 +24,6 @@ export class RentsServices {
 		return fromBuffer(rent);
 	}
 
-	static async getRentsByOwner(login, org) {
-		const wallet = await createWallet(org, login);
-		const gateway = await createGateway(wallet, login, org);
-		const contract = await getContract(
-			gateway,
-			CHANNEL,
-			CHAINCODE,
-			CONTRACTS.RENTS
-		);
-
-		const rents = await contract.submitTransaction(
-			TRANSACTIONS.RENTS.GET_BY_OWNER,
-			login
-		);
-		gateway.disconnect();
-		return fromBuffer(rents);
-	}
-
 	static async addRent(login, org, estateNum, price, time) {
 		const wallet = await createWallet(org, login);
 		const gateway = await createGateway(wallet, login, org);

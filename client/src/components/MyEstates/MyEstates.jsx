@@ -1,42 +1,23 @@
-import React, { useCallback, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { useSelector } from "react-redux";
 import { List } from "../../ui/List";
 import { SubsectionHeader } from "../../ui/SubsectionHeader";
-import { loadMyEstatesThunk } from "../../store";
-import { EstateCard } from "../EstateCard";
-import { Overlay } from "../../ui/Overlay";
-import { NewRentForm } from "../NewRentForm";
+import { EstateCard } from "../../ui/EstateCard";
+
+import { useMyEstates } from "../../hooks";
+import { LoadingWrapper } from "../../ui/LoadingWrapper";
+import { getLoadingEstate } from "../../selectors";
 
 export const MyEstates = () => {
-	const estates = useSelector((state) => state.myEstates.list);
-
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
-
-	const onClose = useCallback(() => {
-		navigate("", { replace: true });
-	}, [navigate]);
-
-	useEffect(() => {
-		dispatch(loadMyEstatesThunk());
-	}, [dispatch]);
+	const estates = useMyEstates();
+	const isLoading = useSelector(getLoadingEstate);
 
 	return (
 		<section>
 			<SubsectionHeader>My estates</SubsectionHeader>
-			<Link to="new">Add rent</Link>
-			<List items={estates} Card={EstateCard} indexedBy="builtAt" />
-			<Routes>
-				<Route
-					path="new"
-					element={
-						<Overlay isOpen={true} close={onClose}>
-							<NewRentForm />
-						</Overlay>
-					}
-				/>
-			</Routes>
+			<LoadingWrapper isLoading={isLoading}>
+				<List items={estates} Card={EstateCard} indexedBy="builtAt" />
+			</LoadingWrapper>
 		</section>
 	);
 };

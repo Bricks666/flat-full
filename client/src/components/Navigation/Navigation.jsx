@@ -12,10 +12,6 @@ const navigation = [
 		children: "Rents",
 	},
 	{
-		path: "/rent-offers",
-		children: "Rent offers",
-	},
-	{
 		path: "/profile",
 		children: "Profile",
 	},

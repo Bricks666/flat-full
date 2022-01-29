@@ -1,15 +1,18 @@
 import React, { useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useMyEstates } from "../../hooks";
 import { addRentThunk } from "../../store";
 
 export const NewRentForm = () => {
-	const estates = useSelector((state) => state.myEstates.list);
+	const estates = useMyEstates();
+
 	const dispatch = useDispatch();
 	const [estateId, setEstateId] = useState(estates[0]?.id);
 	const [price, setPrice] = useState(0);
 	const [time, setTime] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
+
 	const navigate = useNavigate();
 
 	const onEstateIdChange = useCallback(
@@ -54,7 +57,6 @@ export const NewRentForm = () => {
 			estates,
 		]
 	);
-	console.log(estateId);
 
 	return (
 		<form onSubmit={onSubmit}>

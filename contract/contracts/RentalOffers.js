@@ -33,6 +33,10 @@ class RentalOffers extends Contract {
 		return rentalOffer;
 	}
 
+	async getRentOffers(ctx) {
+		return await ctx.rentalOffersList.getRentalOffers();
+	}
+
 	async acceptRentalOffer(ctx, sender, offerId) {
 		const offer = await ctx.rentalOffersList.getRentalOffer(offerId);
 		const user = await ctx.usersList.getUser(sender);

@@ -1,8 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { getUserInfo } from "../../selectors";
 
 export const ProfileInfo = () => {
-	const user = useSelector((state) => state.user.info);
+	const user = useSelector(getUserInfo);
 
 	return (
 		<section>

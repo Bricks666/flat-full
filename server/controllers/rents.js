@@ -17,21 +17,6 @@ export class RentsControllers {
 		}
 	}
 
-	static async getRentsByOwner(req, res, next) {
-		try {
-			const user = req.body.user;
-
-			if (!user) {
-				throw ApiError.UnAuthorization();
-			}
-
-			const rents = await RentsServices.getRentsByOwner(user.login, user.org);
-			res.json({ rents });
-		} catch (e) {
-			next(e);
-		}
-	}
-
 	static async addRent(req, res, next) {
 		try {
 			const { user, estateId, price, time } = req.body;

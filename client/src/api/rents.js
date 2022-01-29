@@ -11,9 +11,3 @@ export const addRent = async (estateId, price, time) => {
 
 	return response.data;
 };
-
-export const getMyRents = async () => {
-	const response = await instance.get("/rents/my");
-
-	return response.data;
-};

@@ -6,6 +6,7 @@ import { authVerify } from "../middlewares/index.js";
 const rentOffersRouter = Router();
 
 rentOffersRouter.put("/new", authVerify, RentOffersControllers.addRentOffer);
+rentOffersRouter.get("/", authVerify, RentOffersControllers.getRentOffers);
 rentOffersRouter.post(
 	"/:id/accept",
 	authVerify,

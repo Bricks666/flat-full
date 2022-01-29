@@ -5,39 +5,39 @@ import { authThunk } from "../../store";
 import { routes } from "../../routes";
 import { AuthRoute } from "../AuthRoute";
 import { Navigation } from "../Navigation";
+import { LoadingWrapper } from "../../ui/LoadingWrapper";
+import { getLoadingUser } from "../../selectors";
 
 export const App = () => {
-	const isLoading = useSelector((state) => state.user.isLoading);
+	const isLoading = useSelector(getLoadingUser);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(authThunk());
 	}, [dispatch]);
 
-	if (isLoading) {
-		return <p>Initialization</p>;
-	}
-
 	return (
-		<div>
-			<Navigation />
-			<Routes>
-				{routes.map(({ path, Component, isOnlyAuth }) => (
-					<Route
-						path={path}
-						element={
-							isOnlyAuth ? (
-								<AuthRoute>
+		<LoadingWrapper isLoading={isLoading}>
+			<div>
+				<Navigation />
+				<Routes>
+					{routes.map(({ path, Component, isOnlyAuth }) => (
+						<Route
+							path={path}
+							element={
+								isOnlyAuth ? (
+									<AuthRoute>
+										<Component />
+									</AuthRoute>
+								) : (
 									<Component />
-								</AuthRoute>
-							) : (
-								<Component />
-							)
-						}
-						key={path}
-					/>
-				))}
-			</Routes>
-		</div>
+								)
+							}
+							key={path}
+						/>
+					))}
+				</Routes>
+			</div>
+		</LoadingWrapper>
 	);
 };

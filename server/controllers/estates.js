@@ -13,22 +13,6 @@ export class EstatesControllers {
 			next(e);
 		}
 	}
-	static async getMyEstates(req, res, next) {
-		try {
-			console.log(req);
-			const { user } = req.body;
-
-			if (!user) {
-				throw ApiError.BadRequest("Not user");
-			}
-
-			const estates = await EstatesServices.getMyEstates(user.login, user.org);
-
-			res.json({ estates });
-		} catch (e) {
-			next(e);
-		}
-	}
 
 	static async addEstate(req, res, next) {
 		try {
