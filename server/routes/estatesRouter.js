@@ -4,7 +4,6 @@ import { authVerify, accessVerify } from "../middlewares/index.js";
 
 const estatesRouter = Router();
 
-estatesRouter.get("/estate/:id", authVerify, EstatesControllers.getEstate);
 estatesRouter.get("/", EstatesControllers.getEstates);
 estatesRouter.get("/my", authVerify, EstatesControllers.getMyEstates);
 estatesRouter.put(

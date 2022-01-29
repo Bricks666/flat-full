@@ -32,7 +32,7 @@ class EstatesList {
 	}
 
 	async isOwner(estateNum, owner) {
-		const estate = await ctx.estatesList.getEstate(estateNum);
+		const estate = await this.getEstate(estateNum);
 
 		if ((estate && estate.owner !== owner) || !estate) {
 			return false;

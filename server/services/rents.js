@@ -9,7 +9,7 @@ import { createWallet, createGateway, getContract } from "./index.js";
 import { fromBuffer } from "../utils/index.js";
 
 export class RentsServices {
-	static async getRent(login, org, rentNum) {
+	static async getRents(login, org) {
 		const wallet = await createWallet(org, login);
 		const gateway = await createGateway(wallet, login, org);
 		const contract = await getContract(
@@ -19,12 +19,27 @@ export class RentsServices {
 			CONTRACTS.RENTS
 		);
 
-		const rent = await contract.submitTransaction(
-			TRANSACTIONS.RENTS.GET_ONE,
-			rentNum
-		);
+		const rent = await contract.submitTransaction(TRANSACTIONS.RENTS.GET_MANY);
 		gateway.disconnect();
 		return fromBuffer(rent);
+	}
+
+	static async getRentsByOwner(login, org) {
+		const wallet = await createWallet(org, login);
+		const gateway = await createGateway(wallet, login, org);
+		const contract = await getContract(
+			gateway,
+			CHANNEL,
+			CHAINCODE,
+			CONTRACTS.RENTS
+		);
+
+		const rents = await contract.submitTransaction(
+			TRANSACTIONS.RENTS.GET_BY_OWNER,
+			login
+		);
+		gateway.disconnect();
+		return fromBuffer(rents);
 	}
 
 	static async addRent(login, org, estateNum, price, time) {

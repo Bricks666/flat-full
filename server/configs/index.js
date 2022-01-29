@@ -17,13 +17,13 @@ export const TRANSACTIONS = {
 		INIT: "initializationContract",
 	},
 	RENTS: {
-		GET_ONE: "getRent",
+		GET_MANY: "getRents",
+		GET_BY_OWNER: "getRentsByOwner",
 		ADD: "createRent",
 		INIT: "initializationContract",
 	},
 	ESTATES: {
 		ADD: "addEstate",
-		GET_ONE: "getEstate",
 		GET_MANY: "getEstates",
 		GET_BY_OWNER: "getMyEstates",
 		INIT: "initializationContract",

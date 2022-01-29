@@ -14,10 +14,22 @@ class Rents extends Contract {
 	async getRent(ctx, rentNum) {
 		return await ctx.rentsList.getRent(rentNum);
 	}
+	async getRents(ctx) {
+		return await ctx.rentsList.getRents();
+	}
+	async getRentsByOwner(ctx, owner) {
+		const estates = await ctx.estatesList.getEstates();
+		const myEstatesId = estates
+			.filter((estate) => estate.owner === owner)
+			.map((estate) => estate.id);
+		const rentsPromises = myEstatesId.map((id) => ctx.rentsList.getRent(id));
+
+		return await Promise.all(rentsPromises);
+	}
 
 	async createRent(ctx, lessor, estateNum, price, time) {
 		const isOwner = await ctx.estatesList.isOwner(estateNum, lessor);
-		const isNotPosted = await ctx.rentLists.isNotPosted(estateNum);
+		const isNotPosted = await ctx.rentsList.isNotPosted(estateNum);
 		if (!isOwner || !isNotPosted) {
 			return false;
 		}

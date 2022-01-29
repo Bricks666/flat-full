@@ -1,0 +1,1 @@
+export { RentCard } from "./RentCard";

@@ -8,23 +8,6 @@ import { createWallet, createGateway, getContract } from "./index.js";
 import { fromBuffer } from "../utils/index.js";
 
 export class EstatesServices {
-	static async getEstate(login, org, estateNum) {
-		const wallet = await createWallet(org, login);
-		const gateway = await createGateway(wallet, login, org);
-		const contract = await getContract(
-			gateway,
-			CHANNEL,
-			CHAINCODE,
-			CONTRACTS.ESTATES
-		);
-		const response = await contract.submitTransaction(
-			TRANSACTIONS.ESTATES.GET_ONE,
-			estateNum
-		);
-		gateway.disconnect();
-		return fromBuffer(response);
-	}
-
 	static async getEstates(login, org) {
 		const wallet = await createWallet(org, login);
 		const gateway = await createGateway(wallet, login, org);

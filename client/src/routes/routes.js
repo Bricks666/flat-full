@@ -2,6 +2,7 @@ import { LoginPage } from "../Pages/LoginPage";
 import { RegistrationPage } from "../Pages/RegistrationPage";
 import { ProfilePage } from "../Pages/ProfilePage";
 import { EstatesPage } from "../Pages/EstatesPage";
+import { RentsPage } from "../Pages/RentsPage";
 
 export const routes = [
 	{
@@ -21,5 +22,10 @@ export const routes = [
 		path: "/estates/*",
 		Component: EstatesPage,
 		isOnlyAuth: false,
+	},
+	{
+		path: "/rents/*",
+		Component: RentsPage,
+		isOnlyAuth: true,
 	},
 ];

@@ -27,7 +27,7 @@ export const EstatesPage = () => {
 		<main>
 			<SectionHeader>Estates</SectionHeader>
 			{isAdmin && <Link to="new">add estate</Link>}
-			<List items={estates} Card={EstateCard} indexedBy={"buildAt"} />
+			<List items={estates} Card={EstateCard} indexedBy={"builtAt"} />
 			<Routes>
 				<Route
 					path="new"

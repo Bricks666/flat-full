@@ -1,0 +1,1 @@
+export { NewRentForm } from "./NewRentForm";

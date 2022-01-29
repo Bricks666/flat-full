@@ -9,9 +9,9 @@ class Estates extends Contract {
 	async initializationContract(ctx) {
 		const estates = [];
 
-		estates.push(new Estate("User2", 60, "19.12.1990"));
-		estates.push(new Estate("User2", 230, "19.12.1990"));
-		estates.push(new Estate("User1", 70, "19.12.1990"));
+		estates.push(new Estate(0, "User2", 60, "19.12.1990"));
+		estates.push(new Estate(1, "User2", 230, "19.12.1990"));
+		estates.push(new Estate(2, "User1", 70, "19.12.1990"));
 
 		await ctx.estatesList.setEstates(estates);
 	}
@@ -20,12 +20,13 @@ class Estates extends Contract {
 	async addEstate(ctx, admin, owner, square, lifetime) {
 		// admin - логин админа, который добавляет
 		const user = await ctx.usersList.getUser(admin);
+		const estates = await this.getEstates(ctx);
 
 		if (!user || user.role !== "Admin") {
 			throw new Error("Проверьте свою роль");
 		}
 
-		const estate = new Estate(owner, square, lifetime);
+		const estate = new Estate(estates.length, owner, square, lifetime);
 
 		await ctx.estatesList.addEstate(estate);
 		return estate;
@@ -40,7 +41,9 @@ class Estates extends Contract {
 	}
 
 	async getMyEstates(ctx, owner) {
-		return (await this.getEstates(ctx)).filter((estate) => estate.owner === owner);
+		return (await this.getEstates(ctx)).filter(
+			(estate) => estate.owner === owner
+		);
 	}
 }
 

@@ -6,6 +6,7 @@ state: {
   isLoadings: boolean
 }
 estate: {
+  id: number;
   owner: string;
   square: number;
   buildAt: string;

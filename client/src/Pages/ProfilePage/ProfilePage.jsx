@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { SectionHeader } from "../../ui/SectionHeader";
 import { ProfileNavigation } from "../../components/ProfileNavigation";
 import { ProfileInfo } from "../../components/ProfileInfo";
 import { MyEstates } from "../../components/MyEstates";
 import { logoutThunk } from "../../store";
-import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { MyRents } from "../../components/MyRents";
 
 export const ProfilePage = () => {
 	const dispatch = useDispatch();
@@ -21,8 +21,8 @@ export const ProfilePage = () => {
 			<button onClick={onLogout}>Logout</button>
 			<ProfileNavigation />
 			<Routes>
-				<Route path="estates" element={<MyEstates />} />
-				<Route path="rents" />
+				<Route path="estates/*" element={<MyEstates />} />
+				<Route path="rents/*" element={<MyRents />} />
 				<Route path="rent-offers" />
 				<Route path="*" element={<Navigate to="estates" />} />
 			</Routes>

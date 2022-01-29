@@ -2,32 +2,6 @@ import { ApiError } from "../services/index.js";
 import { EstatesServices } from "../services/index.js";
 
 export class EstatesControllers {
-	static async getEstate(req, res, next) {
-		try {
-			console.log(req);
-			const { user } = req.body;
-
-			const estateNum = req.params.id;
-
-			if (!user) {
-				throw ApiError.BadRequest("Not user");
-			}
-
-			if (!estateNum) {
-				throw ApiError.BadRequest("Not estateNum");
-			}
-
-			const estate = await EstatesServices.getEstate(
-				user.login,
-				user.org,
-				estateNum
-			);
-
-			res.json({ estate });
-		} catch (e) {
-			next(e);
-		}
-	}
 	static async getEstates(req, res, next) {
 		try {
 			console.log(req);

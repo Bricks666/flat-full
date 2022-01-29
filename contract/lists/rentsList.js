@@ -11,6 +11,7 @@ class RentsList {
 		const rentsList = await this.ctx.stub.getState(this.KEY);
 
 		const rents = fromBuffer(rentsList);
+		console.debug(rents);
 
 		rents.push(rent);
 
@@ -26,18 +27,16 @@ class RentsList {
 	}
 
 	async getRent(rentId) {
-		const rentsList = await this.ctx.stub.getState(this.KEY);
-
-		const rents = fromBuffer(rentsList);
+		const rents = this.getRents();
 		return rents[rentId];
 	}
 	async getRentByEstateNumber(estateNumber) {
-		const rents = this.getRents();
+		const rents = await this.getRents();
 		return rents.find((rent) => rent.estateId === estateNumber);
 	}
 
 	async getRents() {
-		return fromBuffer(await this.ctx.getState(this.KEY));
+		return fromBuffer(await this.ctx.stub.getState(this.KEY));
 	}
 
 	async isNotPosted(estateNumber) {
