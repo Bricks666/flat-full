@@ -7,7 +7,9 @@ state: {
 }
 
 rent: {
-  estateId: number;
+  owner: string;
+  square: string;
+  built at: string;
   price: number;
   time: string;
   isRent: boolean
@@ -106,7 +108,7 @@ export const addRentThunk = (estateId, price, time) => {
 	return async (dispatch) => {
 		try {
 			const response = await addRent(estateId, price, time);
-
+      debugger;
 			dispatch(addRentAC(response.rent));
 		} catch (e) {
 			console.log(e);

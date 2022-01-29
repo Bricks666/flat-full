@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { getMyEstatesIds } from "../selectors";
+import { getUserLogin } from "../selectors";
 
-export const useIsOwnerRent = (estateId) => {
-	return useSelector(getMyEstatesIds).includes(+estateId);
+export const useIsOwnerRent = (rentOwner) => {
+	return useSelector(getUserLogin) === rentOwner;
 };

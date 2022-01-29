@@ -8,6 +8,3 @@ export const getMyEstates = (state) => {
 };
 
 export const getLoadingEstate = (state) => state.estates.isLoading;
-
-export const getMyEstatesIds = (state) =>
-	getMyEstates(state).map((estate) => +estate.id);

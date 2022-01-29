@@ -6,7 +6,7 @@ class RentalOffersList {
 		this.KEY = "rentalOffers";
 	}
 	/* METHODS */
-	async createRentalOffer(rentalOffer) {
+	async addRentOffer(rentalOffer) {
 		const rentalOffers = await this.getRentalOffers();
 		rentalOffers.push(rentalOffer);
 
@@ -14,7 +14,7 @@ class RentalOffersList {
 	}
 
 	async getRentalOffers() {
-		return fromBuffer(await this.ctx.getState(this.KEY));
+		return fromBuffer(await this.ctx.stub.getState(this.KEY));
 	}
 	async getRentalOffer(offerId) {
 		return (await this.getRentalOffers())[offerId];
@@ -27,22 +27,11 @@ class RentalOffersList {
 	async finishRentalOffers(offerId) {
 		const offers = await this.getRentalOffers();
 
-		if (offers[offerId]) {
-			offers[offerId].isFinish = true;
-		}
+		const newOffers = offers.map((offer) =>
+			offer.id === +offerId ? { ...offer, isFinish: true } : offer
+		);
 
-		await this.setRentalOffers(offers);
-	}
-
-	/* EVENTS */
-	async newRentalOffer(offerId) {
-		const offerIdBuffered = toBuffer({ offerId });
-		await this.ctx.setEvent("newRentalOffer", offerIdBuffered);
-	}
-
-	async changeRentalOfferStatus(offerId) {
-		const offerIdBuffered = toBuffer({ offerId });
-		await this.ctx.setEvent("changeRentalOfferStatus", offerIdBuffered);
+		await this.setRentalOffers(newOffers);
 	}
 }
 

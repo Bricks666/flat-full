@@ -37,7 +37,7 @@ export class RentOffersServices {
 		const rentalOffer = await contract.submitTransaction(
 			TRANSACTIONS.RENTAL_OFFERS.ADD,
 			rentId,
-			user.login
+			login
 		);
 		gateway.disconnect();
 		return fromBuffer(rentalOffer);

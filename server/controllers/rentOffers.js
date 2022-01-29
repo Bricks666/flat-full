@@ -30,7 +30,7 @@ export class RentOffersControllers {
 
 			const rentalOfferId = req.params.id;
 
-			RentOffersServices.acceptRentOffer(user.login, user.org, rentalOfferId);
+			await RentOffersServices.acceptRentOffer(user.login, user.org, rentalOfferId);
 
 			res.json({ result: 0 });
 		} catch (e) {

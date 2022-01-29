@@ -8,27 +8,21 @@ class RentsList {
 
 	/* METHODS */
 	async addRent(rent) {
-		const rentsList = await this.ctx.stub.getState(this.KEY);
-
-		const rents = fromBuffer(rentsList);
-		console.debug(rents);
+		const rents = await this.getRents();
 
 		rents.push(rent);
 
-		const dataRent = toBuffer(rents);
-
-		await this.ctx.stub.putState(this.KEY, dataRent);
+		await this.setRents(rents);
 	}
 
 	async setRents(rents) {
-		const dataRent = toBuffer(rents);
-
-		await this.ctx.stub.putState(this.KEY, dataRent);
+		await this.ctx.stub.putState(this.KEY, toBuffer(rents));
 	}
 
 	async getRent(rentId) {
-		const rents = this.getRents();
-		return rents[rentId];
+		const rents = await this.getRents();
+		console.debug(rents);
+		return rents.find((rent) => rent.id === rentId);
 	}
 	async getRentByEstateNumber(estateNumber) {
 		const rents = await this.getRents();
@@ -50,26 +44,12 @@ class RentsList {
 
 	async setIsRent(rentId, isRent) {
 		const rents = await this.getRents();
-		if (rents[rentId]) {
-			rents[rentId].isRent = isRent;
-		}
 
-		await this.setRents(rents);
-	}
+		const mappedRents = rents.map((rent) =>
+			rent.id === rentId ? { ...rent, isRent } : rent
+		);
 
-	/* EVENTS */
-	async delRent(login, rentId) {
-		const dataRent = toBuffer({ login, rentId });
-		await this.ctx.stub.setEvent("delRent", dataRent);
-	}
-
-	async rentEstate(login, rentId) {
-		const data = toBuffer({ login, rentId });
-		await this.ctx.stub.setEvent("rentEstate", data);
-	}
-	async newRent(login, rentId) {
-		const rentData = toBuffer({ login, rentId });
-		await this.ctx.stub.setEvent("newRent", rentData);
+		await this.setRents(mappedRents);
 	}
 }
 

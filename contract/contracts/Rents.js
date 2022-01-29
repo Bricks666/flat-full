@@ -1,6 +1,7 @@
 const { Contract } = require("fabric-contract-api");
 const { RentsCTX } = require("../contexts");
 const { Rent } = require("../models");
+const { mapEstatesToRent } = require("../utils");
 
 class Rents extends Contract {
 	createContext() {
@@ -11,34 +12,29 @@ class Rents extends Contract {
 	}
 
 	/* METHODS */
-	async getRent(ctx, rentNum) {
-		return await ctx.rentsList.getRent(rentNum);
+	async getRent(ctx, rentId) {
+		return await this.getRents(ctx).find((rent) => rent.id === +rentId);
 	}
 	async getRents(ctx) {
-		return await ctx.rentsList.getRents();
-	}
-	async getRentsByOwner(ctx, owner) {
 		const estates = await ctx.estatesList.getEstates();
-		const myEstatesId = estates
-			.filter((estate) => estate.owner === owner)
-			.map((estate) => estate.id);
-		const rentsPromises = myEstatesId.map((id) => ctx.rentsList.getRent(id));
-
-		return await Promise.all(rentsPromises);
+		const rents = await ctx.rentsList.getRents();
+		return mapEstatesToRent(estates, rents);
 	}
-
 	async createRent(ctx, lessor, estateNum, price, time) {
-		const isOwner = await ctx.estatesList.isOwner(estateNum, lessor);
+		const isOwner = await ctx.estatesList.isOwner(+estateNum, lessor);
 		const isNotPosted = await ctx.rentsList.isNotPosted(estateNum);
 		if (!isOwner || !isNotPosted) {
 			return false;
 		}
-
-		const rent = new Rent(estateNum, price, time);
+		const rents = await ctx.rentsList.getRents();
+		const rent = new Rent(rents.length, +estateNum, price, time);
+    console.debug(rent)
+		const estate = await ctx.estatesList.getEstate(+estateNum);
+    console.debug(estate)
 
 		await ctx.rentsList.addRent(rent);
 
-		return rent;
+		return mapEstatesToRent([estate], [rent])[0];
 	}
 }
 

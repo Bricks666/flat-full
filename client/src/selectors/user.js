@@ -5,3 +5,7 @@ export const getUserInfo = (state) => {
 export const getLoadingUser = (state) => {
 	return state.user.isLoading;
 };
+
+export const getUserLogin = (state) => {
+	return getUserInfo(state).login;
+};

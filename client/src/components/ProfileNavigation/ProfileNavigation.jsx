@@ -12,8 +12,12 @@ const routes = [
 		children: "Rents",
 	},
 	{
-		path: "rent-offers",
-		children: "Rent offers",
+		path: "rent-offers/received",
+		children: "Received rent offers",
+	},
+	{
+		path: "rent-offers/sended",
+		children: "Sended rent offers",
 	},
 ];
 

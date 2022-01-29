@@ -1,13 +1,12 @@
-import { getMyEstatesIds } from ".";
+import { getUserLogin } from ".";
 
 export const getRents = (state) => {
 	return state.rents.list;
 };
 
 export const getMyRents = (state) => {
-	debugger;
-	const estateIds = getMyEstatesIds(state);
-	return getRents(state).filter((rent) => estateIds.includes(+rent.estateId));
+	const owner = getUserLogin(state);
+	return getRents(state).filter((rent) => rent.owner === owner);
 };
 
 export const getLoadingRents = (state) => state.rents.isLoading;

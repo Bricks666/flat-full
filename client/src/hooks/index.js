@@ -5,3 +5,6 @@ export { useIsAdmin } from "./useIsAdmin";
 export { useMyRents } from "./useMyRents";
 export { useRents } from "./useRents";
 export { useIsOwnerRent } from "./useIsOwnerRent";
+export { useRentOffers } from "./useRentOffers";
+export { useSendedRentOffers } from "./useSendedRentOffers";
+export { useReceivedRentOffers } from "./useReceivedRentOffers";

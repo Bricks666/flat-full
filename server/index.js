@@ -13,6 +13,7 @@ import { appRouter } from "./routes/index.js";
 import {
 	loginIdentity,
 	createWallet,
+	registerIdentity,
 	createGateway,
 	getContract,
 } from "./services/index.js";
@@ -33,7 +34,7 @@ app.use("/", appRouter);
 app.use(errorHandler);
 
 app.listen(PORT, async () => {
-/* 	await loginIdentity("admin", "adminpw", "org1");
+	await loginIdentity("admin", "adminpw", "org1");
 	const wallet = await createWallet("org1", "admin");
 	const gateway = await createGateway(wallet, "admin", "org1");
 	const users = await getContract(gateway, CHANNEL, CHAINCODE, CONTRACTS.USERS);
@@ -53,6 +54,10 @@ app.listen(PORT, async () => {
 		CHAINCODE,
 		CONTRACTS.RENTAL_OFFERS
 	);
-	await offers.submitTransaction(TRANSACTIONS.RENTAL_OFFERS.INIT); */
+	await offers.submitTransaction(TRANSACTIONS.RENTAL_OFFERS.INIT);
+	await registerIdentity("User1", "1");
+	await registerIdentity("User2", "2");
+	await users.submitTransaction(TRANSACTIONS.USERS.REG, "User1", "Admin", 150);
+	await users.submitTransaction(TRANSACTIONS.USERS.REG, "User2", "Admin", 150);
 	console.log("OK");
 });

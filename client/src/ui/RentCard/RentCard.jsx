@@ -1,9 +1,22 @@
 import React from "react";
 
-export const RentCard = ({ estateId, price, time, isRent, children }) => {
+export const RentCard = ({
+	owner,
+	square,
+	price,
+	time,
+	isRent,
+	builtAt,
+	children,
+}) => {
 	return (
 		<article>
-			<p>{`Estate number: ${estateId}`}</p>
+			<div>
+				<p>About estate</p>
+				<p>{`Owner: ${owner}`}</p>
+				<p>{`Square: ${square}`}</p>
+				<p>{`Built at: ${builtAt}`}</p>
+			</div>
 			<p>{`Duration: ${time}`}</p>
 			<p>{`Price: ${price}`}</p>
 			<p>{`Is rent now: ${isRent ? "yes" : "no"}`}</p>

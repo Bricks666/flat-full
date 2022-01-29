@@ -40,16 +40,6 @@ class EstatesList {
 
 		return true;
 	}
-
-	/* EVENTS */
-	async buyEstate(login, estateNum) {
-		const data = toBuffer({ login, estateNum });
-		await this.ctx.stub.setEvent("buyEstate", data);
-	}
-	async newEstate(login, estateNum) {
-		const estateData = toBuffer({ login, estateNum });
-		await this.ctx.stub.setEvent("newEstate", estateData);
-	}
 }
 
 module.exports = EstatesList;

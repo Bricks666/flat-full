@@ -9,9 +9,9 @@ class Estates extends Contract {
 	async initializationContract(ctx) {
 		const estates = [];
 
-		estates.push(new Estate(0, "User2", 60, "19.12.1990"));
-		estates.push(new Estate(1, "User2", 230, "19.12.1990"));
-		estates.push(new Estate(2, "User1", 70, "19.12.1990"));
+		estates.push(new Estate(estates.length, "User2", 60, "19.12.1990"));
+		estates.push(new Estate(estates.length, "User2", 230, "19.12.1990"));
+		estates.push(new Estate(estates.length, "User1", 70, "19.12.1990"));
 
 		await ctx.estatesList.setEstates(estates);
 	}

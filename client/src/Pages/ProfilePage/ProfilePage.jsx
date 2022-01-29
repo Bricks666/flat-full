@@ -7,6 +7,8 @@ import { ProfileInfo } from "../../components/ProfileInfo";
 import { MyEstates } from "../../components/MyEstates";
 import { logoutThunk } from "../../store";
 import { MyRents } from "../../components/MyRents";
+import { ReceivedRentOffers } from "../../components/ReceivedRentOffers";
+import { SendedRentOffers } from "../../components/SendedRentOffers";
 
 export const ProfilePage = () => {
 	const dispatch = useDispatch();
@@ -23,7 +25,8 @@ export const ProfilePage = () => {
 			<Routes>
 				<Route path="estates/*" element={<MyEstates />} />
 				<Route path="rents/*" element={<MyRents />} />
-				<Route path="rent-offers" />
+				<Route path="rent-offers/received" element={<ReceivedRentOffers />} />
+				<Route path="rent-offers/sended" element={<SendedRentOffers />} />
 				<Route path="*" element={<Navigate to="estates" />} />
 			</Routes>
 		</main>

@@ -1,6 +1,7 @@
 const { Contract } = require("fabric-contract-api");
 const { RentalOfferCTX } = require("../contexts");
 const { RentalOffer } = require("../models");
+const { mapRentsToRentOffer, mapEstatesToRent } = require("../utils");
 
 class RentalOffers extends Contract {
 	async initializationContract(ctx) {
@@ -13,8 +14,9 @@ class RentalOffers extends Contract {
 	/* lessee is a renter login */
 	async addRentalOffer(ctx, rentId, lessee) {
 		const user = await ctx.usersList.getUser(lessee);
-		const rent = await ctx.rentsList.getRent(rentId);
-
+		const rent = await ctx.rentsList.getRent(+rentId);
+		console.debug(user);
+		console.debug(rent);
 		if (!rent || !user) {
 			return null;
 		}
@@ -24,17 +26,24 @@ class RentalOffers extends Contract {
 		if (price > user.balance) {
 			return null;
 		}
-		const rentalOffer = new RentalOffer(rentId, lessee);
+		const rentOffers = await ctx.rentalOffersList.getRentalOffers();
+		const rentalOffer = new RentalOffer(rentOffers.length, +rentId, lessee);
+		const estate = await ctx.estatesList.getEstate(rent.estateId);
 
-		await ctx.rentalOffersList.createRentalOffer(rentalOffer);
+		await ctx.rentalOffersList.addRentOffer(rentalOffer);
 
 		await ctx.usersList.spendMoney(lessee, price);
 
-		return rentalOffer;
+		return mapRentsToRentOffer(mapEstatesToRent([estate], [rent]), [
+			rentalOffer,
+		]);
 	}
 
 	async getRentOffers(ctx) {
-		return await ctx.rentalOffersList.getRentalOffers();
+		const estates = await ctx.estatesList.getEstates();
+		const rents = await ctx.rentsList.getRents();
+		const rentOffers = await ctx.rentalOffersList.getRentalOffers();
+		return mapRentsToRentOffer(mapEstatesToRent(estates, rents), rentOffers);
 	}
 
 	async acceptRentalOffer(ctx, sender, offerId) {
@@ -56,7 +65,7 @@ class RentalOffers extends Contract {
 			return null;
 		}
 
-		await ctx.usersList.addMoney(sender, offerId);
+		await ctx.usersList.addMoney(sender, rent.price);
 		await ctx.rentsList.setIsRent(offer.rentId, true);
 		await ctx.rentalOffersList.finishRentalOffers(offerId);
 

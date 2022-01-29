@@ -18,6 +18,7 @@ export const LOGIN = "flat/user/LOGIN";
 export const LOGOUT = "flat/user/LOGOUT";
 export const START_LOADING = "flat/user/START_LOADING";
 export const END_LOADING = "flat/user/END_LOADING";
+export const CHANGE_BALANCE = "flat/user/CHANGE_BALANCE";
 
 const initialState = {
 	isLogin: false,
@@ -63,6 +64,15 @@ export const user = (state = initialState, action) => {
 				isLoading: false,
 			};
 		}
+		case CHANGE_BALANCE: {
+			return {
+				...state,
+				info: {
+					...state.info,
+					balance: state.info.balance + +action.payload.change,
+				},
+			};
+		}
 		default: {
 			return state;
 		}
@@ -100,6 +110,15 @@ export const startLoadingAC = () => {
 export const endLoadingAC = () => {
 	return {
 		type: END_LOADING,
+	};
+};
+
+export const changeBalanceAC = (change) => {
+	return {
+		type: CHANGE_BALANCE,
+		payload: {
+			change,
+		},
 	};
 };
 

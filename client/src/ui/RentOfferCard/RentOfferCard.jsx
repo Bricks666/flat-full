@@ -3,9 +3,9 @@ import React from "react";
 export const RentOfferCard = ({ lessee, rentId, isFinish, children }) => {
 	return (
 		<article>
-			<p>{`Rent id: ${rentId}`}</p>
+			<div></div>
 			<p>{`Lessee: ${lessee}`}</p>
-			<p>{`Status: ${isFinish ? "Active" : "Finished"}`}</p>
+			<p>{`Status: ${isFinish ? "Finished" : "Active"}`}</p>
 			{children}
 		</article>
 	);

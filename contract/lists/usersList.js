@@ -39,25 +39,8 @@ class UsersList {
 
 	async addMoney(login, count) {
 		const users = await this.getUsers();
-		users[login].balance += count;
+		users[login].balance += +count;
 		await this.setUsers(users);
-	}
-
-	/* EVENTS */
-	//Event на смену ролей
-	async changeRole(login, newRole) {
-		const data = toBuffer({ login, newRole });
-		await this.ctx.stub.setEvent("changeRole", data);
-	}
-
-	async newUser(login) {
-		const loginData = toBuffer({ login });
-		await this.ctx.stub.setEvent("newUser", loginData);
-	}
-
-	async changeBalance(login, newBalance) {
-		const bufferedData = toBuffer({ login, newBalance });
-		await this.ctx.setEvent("changeBalance", bufferedData);
 	}
 }
 
