@@ -22,7 +22,7 @@ export const END_LOADING = "flat/user/END_LOADING";
 const initialState = {
 	isLogin: false,
 	isLoading: true,
-	user: {
+	info: {
 		login: "",
 		role: "",
 		currentRole: "",

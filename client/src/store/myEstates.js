@@ -68,7 +68,7 @@ export const loadMyEstatesThunk = () => {
 		try {
 			dispatch(startLoadingAC());
 			const response = await getMyEstates();
-      debugger;
+
 			dispatch(setMyEstatesAC(response.estates));
 		} catch (e) {
 			console.log(e);

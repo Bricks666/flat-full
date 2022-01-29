@@ -13,5 +13,5 @@ const rootReducer = combineReducers({
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export { loginThunk, logoutThunk, registrationThunk, authThunk } from "./user";
-export { loadEstatesThunk } from "./estates";
+export { loadEstatesThunk, addEstateThunk } from "./estates";
 export { loadMyEstatesThunk } from "./myEstates";

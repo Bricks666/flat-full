@@ -1,4 +1,4 @@
-import { getEstates } from "../api";
+import { addEstate, getEstates } from "../api";
 
 /*
 state: {
@@ -15,6 +15,7 @@ estate: {
 export const START_LOADING = "flat/estates/START_LOADING";
 export const END_LOADING = "flat/estates/END_LOADING";
 export const SET_ESTATES = "flat/estates/SET_ESTATES";
+export const ADD_ESTATE = "flat/estates/ADD_ESTATE";
 
 const initialState = {
 	list: [],
@@ -41,6 +42,12 @@ export const estates = (state = initialState, action) => {
 				list: action.payload.estates,
 			};
 		}
+		case ADD_ESTATE: {
+			return {
+				...state,
+				list: [...state.list, action.payload.estate],
+			};
+		}
 		default: {
 			return state;
 		}
@@ -52,6 +59,15 @@ export const setEstatesAC = (estates) => {
 		type: SET_ESTATES,
 		payload: {
 			estates,
+		},
+	};
+};
+
+export const addEstateAC = (estate) => {
+	return {
+		type: ADD_ESTATE,
+		payload: {
+			estate,
 		},
 	};
 };
@@ -79,6 +95,18 @@ export const loadEstatesThunk = () => {
 			console.log(e);
 		} finally {
 			dispatch(endLoadingAC());
+		}
+	};
+};
+
+export const addEstateThunk = (owner, square, builtAt) => {
+	return async (dispatch) => {
+		try {
+			const response = await addEstate(owner, square, builtAt);
+
+			dispatch(addEstateAC(response.estate));
+		} catch (e) {
+			console.log(e);
 		}
 	};
 };

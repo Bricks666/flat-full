@@ -1,5 +1,5 @@
-import { createPortal, useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 export const Portal = ({ children }) => {
 	const [container] = useState(() => document.createElement("div"));

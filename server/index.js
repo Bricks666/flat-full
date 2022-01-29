@@ -33,7 +33,7 @@ app.use("/", appRouter);
 app.use(errorHandler);
 
 app.listen(PORT, async () => {
-	await loginIdentity("admin", "adminpw", "org1");
+/* 	await loginIdentity("admin", "adminpw", "org1");
 	const wallet = await createWallet("org1", "admin");
 	const gateway = await createGateway(wallet, "admin", "org1");
 	const users = await getContract(gateway, CHANNEL, CHAINCODE, CONTRACTS.USERS);
@@ -53,6 +53,6 @@ app.listen(PORT, async () => {
 		CHAINCODE,
 		CONTRACTS.RENTAL_OFFERS
 	);
-	await offers.submitTransaction(TRANSACTIONS.RENTAL_OFFERS.INIT);
+	await offers.submitTransaction(TRANSACTIONS.RENTAL_OFFERS.INIT); */
 	console.log("OK");
 });

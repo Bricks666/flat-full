@@ -3,7 +3,7 @@ export const List = ({ items, Card, indexedBy }) => {
 		<ul>
 			{items.map((item) => (
 				<li>
-					<Card {...item} kay={item[indexedBy]} />
+					<Card {...item} key={item[indexedBy]} />
 				</li>
 			))}
 		</ul>

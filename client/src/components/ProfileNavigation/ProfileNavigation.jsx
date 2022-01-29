@@ -1,29 +1,22 @@
 import React from "react";
+import { List } from "../../ui/List";
 import { NavigationItem } from "../../ui/NavigationItem";
 
 const routes = [
 	{
 		path: "estates",
-		name: "Estates",
+		children: "Estates",
 	},
 	{
 		path: "rents",
-		name: "Rents",
+		children: "Rents",
 	},
 	{
 		path: "rent-offers",
-		name: "Rent offers",
+		children: "Rent offers",
 	},
 ];
 
 export const ProfileNavigation = () => {
-	return (
-		<ul>
-			{routes.map(({ path, name }) => (
-				<li key={path}>
-					<NavigationItem path={path}>{name}</NavigationItem>
-				</li>
-			))}
-		</ul>
-	);
+	return <List items={routes} Card={NavigationItem} indexedBy={"path"} />;
 };

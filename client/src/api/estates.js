@@ -11,3 +11,13 @@ export const getEstates = async () => {
 
 	return estates.data;
 };
+
+export const addEstate = async (owner, square, builtAt) => {
+	const response = await instance.put("/estates/new", {
+		owner,
+		square,
+		builtAt,
+	});
+
+	return response.data;
+};

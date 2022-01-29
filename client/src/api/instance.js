@@ -10,7 +10,6 @@ const createToken = (token) => `Bearer ${token}`;
 
 instance.interceptors.response.use(
 	(response) => {
-		debugger;
 		if ("accessToken" in response.data) {
 			instance.defaults.headers.common["Authorization"] = createToken(
 				response.data.accessToken

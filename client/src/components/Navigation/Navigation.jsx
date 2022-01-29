@@ -24,7 +24,7 @@ const navigation = [
 export const Navigation = () => {
 	return (
 		<nav>
-			<List items={navigation} Card={NavigationItem} indexedBy="children" />
+			<List items={navigation} Card={NavigationItem} indexedBy="path" />
 		</nav>
 	);
 };

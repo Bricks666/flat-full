@@ -58,13 +58,13 @@ export class EstatesControllers {
 
 	static async addEstate(req, res, next) {
 		try {
-			const { user, owner, square, lifetime } = req.body;
+			const { user, owner, square, builtAt } = req.body;
 
 			if (!user) {
 				throw ApiError.BadRequest("Not user");
 			}
-			if (!owner || !square || !lifetime) {
-				throw ApiError.BadRequest("Must be owner, square, lifetime");
+			if (!owner || !square || !builtAt) {
+				throw ApiError.BadRequest("Must be owner, square, builtAt");
 			}
 
 			const estate = await EstatesServices.addEstate(
@@ -72,7 +72,7 @@ export class EstatesControllers {
 				user.org,
 				owner,
 				square,
-				lifetime
+				builtAt
 			);
 
 			res.json({ estate });
