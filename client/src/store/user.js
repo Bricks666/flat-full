@@ -2,11 +2,13 @@ import { auth, login as loginAPI, logout, registration } from "../api";
 /*
 state: {
   isLogin: boolean;
-  login: string;
-  role: string;
-  currentRole: string;
-  balance: number;
-  organization: string;
+  info: {
+    login: string;
+    role: string;
+    currentRole: string;
+    balance: number;
+    organization: string;
+  }
   isLoading: boolean;
 }
 */
@@ -20,11 +22,13 @@ export const END_LOADING = "flat/user/END_LOADING";
 const initialState = {
 	isLogin: false,
 	isLoading: true,
-	login: "",
-	role: "",
-	currentRole: "",
-	balance: 0,
-	organization: "",
+	user: {
+		login: "",
+		role: "",
+		currentRole: "",
+		balance: 0,
+		organization: "",
+	},
 };
 
 export const user = (state = initialState, action) => {
@@ -32,7 +36,7 @@ export const user = (state = initialState, action) => {
 		case SET_USER_INFO: {
 			return {
 				...state,
-				...action.payload.user,
+				info: action.payload.user,
 			};
 		}
 		case LOGIN: {
@@ -66,6 +70,7 @@ export const user = (state = initialState, action) => {
 };
 
 export const setUserInfoAC = (user) => {
+	console.log(user);
 	return {
 		type: SET_USER_INFO,
 		payload: {
@@ -103,9 +108,9 @@ export const authThunk = () => {
 		try {
 			dispatch(startLoadingAC());
 
-			const user = await auth();
+			const userAndTokens = await auth();
 
-			dispatch(setUserInfoAC(user));
+			dispatch(setUserInfoAC(userAndTokens.user));
 			dispatch(loginAC());
 		} catch (e) {
 			console.log(e);
@@ -118,7 +123,6 @@ export const authThunk = () => {
 export const loginThunk = (login, password) => {
 	return async (dispatch) => {
 		try {
-
 			const userAndTokens = await loginAPI(login, password);
 			dispatch(setUserInfoAC(userAndTokens.user));
 			dispatch(loginAC());
@@ -147,6 +151,7 @@ export const registrationThunk = (login, password) => {
 	return async () => {
 		try {
 			await registration(login, password);
+			return true;
 		} catch (e) {
 			console.log(e);
 		}

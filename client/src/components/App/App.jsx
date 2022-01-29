@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authThunk } from "../../store";
 import { routes } from "../../routes";
 import { AuthRoute } from "../AuthRoute";
+import { Navigation } from "../Navigation";
 
 export const App = () => {
 	const isLoading = useSelector((state) => state.user.isLoading);
@@ -19,6 +20,7 @@ export const App = () => {
 
 	return (
 		<div>
+			<Navigation />
 			<Routes>
 				{routes.map(({ path, Component, isOnlyAuth }) => (
 					<Route

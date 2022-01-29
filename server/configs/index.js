@@ -24,6 +24,8 @@ export const TRANSACTIONS = {
 	ESTATES: {
 		ADD: "addEstate",
 		GET_ONE: "getEstate",
+		GET_MANY: "getEstates",
+		GET_BY_OWNER: "getMyEstates",
 		INIT: "initializationContract",
 	},
 	RENTAL_OFFERS: {

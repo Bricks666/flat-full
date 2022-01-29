@@ -34,6 +34,14 @@ class Estates extends Contract {
 	async getEstate(ctx, estateNum) {
 		return await ctx.estatesList.getEstate(estateNum);
 	}
+
+	async getEstates(ctx) {
+		return await ctx.estatesList.getEstates();
+	}
+
+	async getMyEstates(ctx, owner) {
+		return (await this.getEstates(ctx)).filter((estate) => estate.owner === owner);
+	}
 }
 
 module.exports = Estates;

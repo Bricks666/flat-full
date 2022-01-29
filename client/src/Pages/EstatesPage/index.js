@@ -1,0 +1,1 @@
+export { EstatesPage } from "./EstatesPage";
